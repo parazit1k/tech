@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("user")
 public class UserController {
@@ -22,9 +24,9 @@ public class UserController {
     }
 
     @GetMapping("login")
-    public ResponseEntity<String> login(@RequestParam String login, @RequestParam String password) {
+    public ResponseEntity<Optional<Users>> login(@RequestParam String login, @RequestParam String password) {
 
-        if (userService.login(new UsersDTO(login, password))) return ResponseEntity.ok().build();
+        if (userService.login(new UsersDTO(login, password))) return ResponseEntity.ok(userService.getUser(login));
 
         return ResponseEntity.notFound().build();
     }

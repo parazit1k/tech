@@ -6,6 +6,8 @@ import com.example.TechSupport.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserService {
 
@@ -24,5 +26,9 @@ public class UserService {
 
     public boolean login(UsersDTO usersDTO){
         return userRepository.existsByLoginAndPassword(usersDTO.getLogin(), usersDTO.getPassword()) || userRepository.existsByEmailAndPassword(usersDTO.getLogin(), usersDTO.getPassword());
+    }
+
+    public Optional<Users> getUser(String login){
+        return Optional.ofNullable(userRepository.findByEmailOrLogin(login));
     }
 }
